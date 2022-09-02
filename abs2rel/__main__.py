@@ -14,11 +14,10 @@ def abs2rel():
     print(
       "We are about to perform destructive changes"
       " in the python files in this directory tree."
-    )
-
-    answer = input(
       " Are you sure you want to proceed? y/n"
     )
+
+    answer = input()
 
     if answer.lower() != 'y':
 
@@ -127,6 +126,9 @@ def check_import_data(line_text, possible_local_imports):
     elif ' import\\' in line_text:
         end_char_index = line_text.rindex(' import\\')
 
+    elif ' import(' in line_text:
+        end_char_index = line_text.rindex(' import(')
+
     else: return ('', None, None)
 
     ###
@@ -202,7 +204,7 @@ def replace_imports(
         ###
 
         new_text = (
-          f'from {rel_dotted_import} {tail}'
+          f'from {rel_dotted_import}{tail}'
         )
 
         lines[line_index] = new_text
