@@ -279,8 +279,19 @@ def replace_imports(
         similar to the path_to_abs_dotted_import dict,
         but with keys and values inverted.
     """
-    ### retrieve the contents of the path as lines
-    lines = path.read_text(encoding='utf-8').splitlines()
+    ### retrieve the contents of the path as lines;
+    ###
+    ### note that line breaks are kept in the lines;
+    ### this way, if the file ends with a line break
+    ### it is preserved when we concatenated the
+    ### lines together to save the file
+
+    lines = (
+
+      path.read_text(encoding='utf-8')
+      .splitlines(keepends=True)
+
+    )
 
     ### retrieve the import data for the path, that is,
     ### data about the absolute local imports it contains
@@ -358,8 +369,13 @@ def replace_imports(
         lines[line_index] = new_text
 
 
-    ### finally, rewrite the file contents
-    path.write_text('\n'.join(lines), encoding='utf-8')
+    ### finally, rewrite the file contents;
+    ###
+    ### note that we don't need to used a line breaking
+    ### character in between the lines, because the lines
+    ### kept their line breaks when we separated them
+    ### at the beginning of this function
+    path.write_text(''.join(lines), encoding='utf-8')
 
 
 if __name__ == '__main__':
