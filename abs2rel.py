@@ -1,5 +1,8 @@
 """Turn local absolute imports into relative ones."""
 
+__version__ = '1.1.0'
+
+
 ### standard library imports
 
 from pathlib import Path
